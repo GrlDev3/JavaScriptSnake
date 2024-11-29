@@ -16,9 +16,29 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <h1>Let's play Snake!</h1>
+        <h1 id="message">Let's play Snake!</h1>
+        <h5 id="refresh"></h5>
         <canvas id="gameCanvas" width="500" height="500">&lt;</canvas>
-        <div>The score:</div><div id="score">0</div>
+        <div id="score">0</div>
+        <style>
+            #gameCanvas {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            #score {
+                text-align: center;
+                font-size: 70px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            h1, h5{
+                text-align: center;
+            }
+
+        </style>
         <script>
             //get the canvas element
             const gameCanvas=document.getElementById("gameCanvas");
@@ -51,7 +71,11 @@
              * Main function of the game (not needed yet to be a function)
              */
             function main(){
-                if(didGameEnd()) return;
+                if(didGameEnd()) {
+                    document.getElementById('message').innerText = "Game Over!";
+                    document.getElementById('refresh').innerHTML = "Refresh the page to play again!";
+                    return;
+                }
 
                 setTimeout(function onTick(){
                     changeDir = false;
@@ -121,7 +145,7 @@
                 changeDir = true;
 
                 const keyPressed = event.keyCode;
-                
+
                 const goingUp = dy === -10;
                 const goingDown = dy === 10;
                 const goingLeft = dx === -10;
