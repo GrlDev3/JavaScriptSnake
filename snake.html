@@ -90,7 +90,14 @@
             function advanceSnake(){
                 const head = {x: snake[0].x + dx, y:snake[0].y + dy}; //make a new element
                 snake.unshift(head); //add the new element at the front of the array
-                snake.pop(); //remove the last element
+                
+                const didEatFood = snake[0].x === foodX && snake[0].y === foodY;
+                if(didEatFood){
+                    createFood(); //regenerate food location, but also grow the snake
+                }else{
+                    snake.pop(); //remove the last element, to keep snake at the same size
+                }               
+                
             }
 
             function changeDirection(event){
