@@ -32,12 +32,15 @@
                 {x: 110, y: 150}
             ];
 
+            let foodX;  //food x-coordinate
+            let foodY;  //food y-coordinate
             let dx = 0; //the horizontal velocity of the snake
             let dy = -10; //the vertical velocity of the snake
             
             //The game
             main();
-
+            //Create the first food location
+            createFood();
             //Call changeDirection whenever a key is pressed
             document.addEventListener("keydown", changeDirection);
 
@@ -47,6 +50,7 @@
             function main(){
                 setTimeout(function onTick(){
                     clearCanvas();
+                    drawFood();
                     advanceSnake();
                     drawSnake();
 
@@ -116,6 +120,29 @@
                     dx = 0;
                     dy = 10;
                 }
+            }
+
+            function randomTen(min, max){
+                return Math.round((Math.random() * (max-min) + min) / 10) * 10;
+            }
+
+            function createFood(){
+                foodX = randomTen(0, gameCanvas.width - 10);
+                foodY = randomTen(0, gameCanvas.height - 10);
+
+                snake.forEach(function isFoodOnSnake(part){
+                    const foodIsOnSnake = part.x == foodX && part.y == foodY;
+                    if (foodIsOnSnake) {
+                        createFood();
+                    }
+                });
+            }
+
+            function drawFood() {
+                ctx.fillStyle = 'red';
+                ctx.strokestyle = 'darkred';
+                ctx.fillRect(foodX, foodY, 10, 10);
+                ctx.strokeRect(foodX, foodY, 10, 10);
             }
             
         </script>
