@@ -38,6 +38,7 @@
             let dx = 0; //the horizontal velocity of the snake
             let dy = -10; //the vertical velocity of the snake
             let score = 0; //the user's score
+            let changeDir = false;
             
             //The game
             main();
@@ -53,6 +54,7 @@
                 if(didGameEnd()) return;
 
                 setTimeout(function onTick(){
+                    changeDir = false;
                     clearCanvas();
                     drawFood();
                     advanceSnake();
@@ -111,7 +113,15 @@
                 const RIGHT_KEY = 39;
                 const UP_KEY = 38;
                 const DOWN_KEY = 40;
+
+                //prevent snake from reversing
+                if (changeDir) {
+                    return;
+                }
+                changeDir = true;
+
                 const keyPressed = event.keyCode;
+                
                 const goingUp = dy === -10;
                 const goingDown = dy === 10;
                 const goingLeft = dx === -10;
